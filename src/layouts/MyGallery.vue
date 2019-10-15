@@ -1,42 +1,24 @@
 <template>
-  <div >
+  <div>
     <div class="header q-ml-xl">
       <h3>Welcome to my gallery app</h3>
     </div>
     <div class="q-pa-md">
-      <q-infinite-scroll
-        @load="onLoad"
-        :offset="100"
-      >
+      <q-infinite-scroll @load="onLoad" :offset="100">
         <div class="row">
-          <div
-            v-for="(item, index) in items"
-            :key="index"
-            class="col-3 q-ma-md"
-          >
-            <q-img
-              :src='getImageUrl(item)'
-              :ratio='1'
-              @click="focusOnImg(item,index)"
-            />
+          <div v-for="(item, index) in items" :key="index" class="col-3 q-ma-md">
+            <q-img :src="getImageUrl(item)" :ratio="1" @click="focusOnImg(item,index)" />
           </div>
         </div>
         <template v-slot:loading>
           <div class="row justify-center q-my-md">
-            <q-spinner-dots
-              color="primary"
-              size="40px"
-            />
+            <q-spinner-dots color="primary" size="40px" />
           </div>
         </template>
       </q-infinite-scroll>
     </div>
     <q-dialog v-model="carousel">
-      <photo-modal
-        :left-photo="leftPhoto"
-        :right-photo="rightPhoto"
-        :main-photo="mainPhoto"
-      ></photo-modal>
+      <photo-modal :left-photo="leftPhoto" :right-photo="rightPhoto" :main-photo="mainPhoto"></photo-modal>
     </q-dialog>
   </div>
 </template>
@@ -65,7 +47,7 @@ export default {
       this.$axios
         .get(
           `https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=76f2073c1889215b74ff0a5709272231&gallery_id=66911286-${
-            galleries[this.galleryIndex % galleries.length]
+          galleries[this.galleryIndex % galleries.length]
           }&format=json&nojsoncallback=1`
         )
         .then(response => {
